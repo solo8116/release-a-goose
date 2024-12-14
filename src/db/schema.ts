@@ -1,12 +1,10 @@
-import { jsonb, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, uuid } from "drizzle-orm/pg-core";
 
-export type NewUser = typeof users.$inferInsert;
-
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  name: text("name"),
-  email: text("email"),
-  settings: jsonb("settings"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+export const WebhookSchema = pgTable("webhooks", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  githubSecret: text("github_secret").notNull(),
+  discordWebhookUrl: text("discord_webhook_url"),
+  slackWebhookUrl: text("slack_webhook_url"),
+  telegramSecret: text("telegram_secret"),
+  telegramChatId: text("telegram_chat_id"),
 });

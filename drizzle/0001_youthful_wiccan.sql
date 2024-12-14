@@ -1,0 +1,1 @@
+ALTER TABLE "webhooks" RENAME COLUMN "discordSecret" TO "discord_webhook_url";
