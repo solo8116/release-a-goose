@@ -168,7 +168,7 @@ This endpoint listens for `release.publish` events from GitHub and sends release
 
 Make sure you have Neon set up and the api is configured to use your database.
 
-To do this, create a `.dev.vars` file with your Neon connection string as the `DATABASE_URL` and open api key `OPENAI_API_KEY` as key and value (see: `.dev.vars.example`).
+To do this, create a `.dev.vars` file with your Neon connection string as the `DATABASE_URL` ,open api key `OPENAI_API_KEY` and Github Personal access tokens (classic) `TOKEN` as key and value (see: `.dev.vars.example`).
 
 Also make sure you are logged in to Cloudflare and have access to Workers AI.
 

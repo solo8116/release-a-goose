@@ -11,6 +11,7 @@ import { WebhookSchema } from "./db/schema";
 type Bindings = {
   DATABASE_URL: string;
   OPENAI_API_KEY: string;
+  TOKEN: string;
 };
 
 const encoder = new TextEncoder();
@@ -104,14 +105,11 @@ app.post("/release", async (c) => {
         400
       );
     }
-    const headers: Record<string, string> = token
-      ? {
-          Authorization: `Bearer ${token}`,
-          "User-Agent": "MyApp",
-        }
-      : {
-          "User-Agent": "MyApp",
-        };
+    const githubToken = token ? token : c.env.TOKEN;
+    const headers = {
+      Authorization: `Bearer ${githubToken}`,
+      "User-Agent": "MyApp",
+    };
     const ownerRepo = url.replace("https://github.com/", "");
     let response = await fetch(
       `https://api.github.com/repos/${ownerRepo}/releases`,
@@ -119,11 +117,20 @@ app.post("/release", async (c) => {
         headers,
       }
     );
+    if (response.status === 404) {
+      return c.json({ success: false, message: "releases not found" }, 404);
+    }
     let text = await response.text();
     const allReleases: any[] = JSON.parse(text);
     let limitedReleases = [];
-    for (let i = 0; i < LIMIT; i++) {
-      limitedReleases[i] = allReleases[i].body;
+    if (allReleases.length < LIMIT) {
+      for (let i = 0; i < allReleases.length; i++) {
+        limitedReleases[i] = allReleases[i].body;
+      }
+    } else {
+      for (let i = 0; i < LIMIT; i++) {
+        limitedReleases[i] = allReleases[i].body;
+      }
     }
     const releasesBody = limitedReleases
       .map((release, index) => `release ${index + 1}: ${release}`)
@@ -154,6 +161,9 @@ app.post("/release", async (c) => {
         return data.commit.message;
       });
       page++;
+    }
+    if (newCommitsMessage.length === 0) {
+      return c.json({ success: false, message: "new commits not found" }, 404);
     }
     const commitMessage = newCommitsMessage
       .map((message, index) => `message ${index + 1}: ${message}`)
