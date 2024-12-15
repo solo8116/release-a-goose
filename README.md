@@ -170,7 +170,12 @@ Make sure you have Neon set up and the api is configured to use your database.
 
 To do this, create a `.dev.vars` file with your Neon connection string as the `DATABASE_URL` ,open api key `OPENAI_API_KEY` and Github Personal access tokens (classic) `TOKEN` as key and value (see: `.dev.vars.example`).
 
-Also make sure you are logged in to Cloudflare and have access to Workers AI.
+When you iterate on the database schema, you'll need to generate a new migration and apply it:
+
+```sh
+npm run db:generate
+npm run db:migrate
+```
 
 To kick off the app locally.
 
