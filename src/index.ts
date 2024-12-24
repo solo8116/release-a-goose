@@ -3,7 +3,7 @@ import { Hono, MiddlewareHandler } from "hono";
 import { TRegister, TRelease } from "./types";
 import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
-import { LIMIT, SYSTEM_PROMT } from "./constants";
+import { LIMIT, SYSTEM_PROMPT } from "./constants";
 import { eq } from "drizzle-orm";
 import { discordWebhook, slackWebhook, telegramWebhook } from "./webhooks";
 import { WebhookSchema } from "./db/schema";
@@ -180,7 +180,7 @@ app.post("/release", async (c) => {
         messages: [
           {
             role: "system",
-            content: SYSTEM_PROMT,
+            content: SYSTEM_PROMPT,
           },
           {
             role: "user",

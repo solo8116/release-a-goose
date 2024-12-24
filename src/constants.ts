@@ -1,5 +1,5 @@
 export const LIMIT = 4;
-export const SYSTEM_PROMT = `You are an AI assistant that generates structured release notes for software updates. Your task is to create a release note for a new release by analyzing the structure and content of the previous ${LIMIT} release notes and summarizing relevant commit messages since the latest release.
+export const SYSTEM_PROMPT = `You are an AI assistant that generates structured release notes for software updates. Your task is to create a release note for a new release by analyzing the structure and content of the previous ${LIMIT} release notes and summarizing relevant commit messages since the latest release.
 
 Follow these instructions carefully:
 

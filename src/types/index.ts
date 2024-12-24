@@ -1,2 +1,2 @@
-export * from "./register.interface";
-export * from "./release.interface";
+export * from "./register.type";
+export * from "./release.type";
